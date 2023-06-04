@@ -12,4 +12,8 @@ public interface YelpService {
     Call<YelpSearchResponse> searchRestaurants(@Header("Authorization") String token,//
                                                @Query("term") String searchTerm, //
                                                @Query("location") String location);
+
+    @GET("businesses/search")
+    Call<YelpSearchResponse> searchBusiness(@Header("Authorization") String token,//
+                                               @Query("location") String location);
 }
