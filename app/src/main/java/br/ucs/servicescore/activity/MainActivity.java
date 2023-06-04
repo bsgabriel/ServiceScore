@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO: Pegar a cidade com base na localização do celular
+        // TODO: Recriar as entidades utilizando apenas os campos necessários
+        // TODO: Verificar se existe dados no banco. Caso não tenha, carrega da API e salva
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initComponents();
@@ -38,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
         rvBusiness.setLayoutManager(new LinearLayoutManager(this));
         rvBusiness.setAdapter(businessAdapter);
 
-
         Retrofit retrofit = new Retrofit.Builder().baseUrl(GlobalKeys.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         YelpService service = retrofit.create(YelpService.class);
-//        service.searchRestaurants("Bearer " + GlobalKeys.API_KEY, "xis", "Caxias do Sul").enqueue(new Callback() {
         service.searchBusiness("Bearer " + GlobalKeys.API_KEY,"Caxias do Sul").enqueue(new Callback() {
             @Override
             public void onFailure(Call call, Throwable t) {
