@@ -23,7 +23,6 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
     private TextView txtCategoria;
     private TextView txtNumReviews;
     private TextView txtEndereco;
-    private TextView txtPreco;
     private ImageView imageView;
     private RatingBar ratingBar;
 
@@ -38,7 +37,6 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         txtCategoria = (TextView) itemView.findViewById(R.id.txtCategoria);
         txtNumReviews = (TextView) itemView.findViewById(R.id.txtNumReviews);
         txtEndereco = (TextView) itemView.findViewById(R.id.txtEndereco);
-        txtPreco = (TextView) itemView.findViewById(R.id.txtPreco);
         imageView = (ImageView) itemView.findViewById(R.id.imageView);
         ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
     }
@@ -50,7 +48,6 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         txtCategoria.setText(business.getCategories().get(0).getTitle());
         txtNumReviews.setText(business.getReviewCount() + " reviews");
         txtEndereco.setText(business.getLocation().getAddress1());
-        txtPreco.setText(business.getPrice());
 
         Glide.with(itemView.getContext())//
                 .load(business.getImageUrl())//
