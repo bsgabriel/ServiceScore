@@ -47,7 +47,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         ratingBar.setRating(business.getRating());
         txtCategoria.setText(business.getCategories().get(0).getTitle());
         txtNumReviews.setText(business.getReviewCount() + " reviews");
-        txtEndereco.setText(business.getLocation().getAddress1());
+        txtEndereco.setText(business.getAddress());
 
         Glide.with(itemView.getContext())//
                 .load(business.getImageUrl())//

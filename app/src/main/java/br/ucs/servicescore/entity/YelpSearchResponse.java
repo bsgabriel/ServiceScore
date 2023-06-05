@@ -17,9 +17,6 @@ public class YelpSearchResponse implements Serializable {
     @SerializedName("total")
     @Expose
     private int total;
-    @SerializedName("region")
-    @Expose
-    private Region region;
 
     public List<Business> getBusinesses() {
         return businesses;
@@ -37,13 +34,7 @@ public class YelpSearchResponse implements Serializable {
         this.total = total;
     }
 
-    public Region getRegion() {
-        return region;
-    }
 
-    public void setRegion(Region region) {
-        this.region = region;
-    }
 
     @Override
     public String toString() {
@@ -57,10 +48,6 @@ public class YelpSearchResponse implements Serializable {
         sb.append('=');
         sb.append(this.total);
         sb.append(',');
-        sb.append("region");
-        sb.append('=');
-        sb.append(((this.region == null) ? "<null>" : this.region));
-        sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
@@ -73,7 +60,6 @@ public class YelpSearchResponse implements Serializable {
     public int hashCode() {
         int result = 1;
         result = ((result * 31) + this.total);
-        result = ((result * 31) + ((this.region == null) ? 0 : this.region.hashCode()));
         result = ((result * 31) + ((this.businesses == null) ? 0 : this.businesses.hashCode()));
         return result;
     }
@@ -87,7 +73,7 @@ public class YelpSearchResponse implements Serializable {
             return false;
         }
         YelpSearchResponse rhs = ((YelpSearchResponse) other);
-        return (((this.total == rhs.total) && (Objects.equals(this.region, rhs.region))) && (Objects.equals(this.businesses, rhs.businesses)));
+        return this.total == rhs.total && Objects.equals(this.businesses, rhs.businesses);
     }
 
 }

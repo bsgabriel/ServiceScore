@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Business implements Serializable {
 
@@ -14,21 +13,12 @@ public class Business implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("alias")
-    @Expose
-    private String alias;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("image_url")
     @Expose
     private String imageUrl;
-    @SerializedName("is_closed")
-    @Expose
-    private boolean isClosed;
-    @SerializedName("url")
-    @Expose
-    private String url;
     @SerializedName("review_count")
     @Expose
     private int reviewCount;
@@ -38,27 +28,9 @@ public class Business implements Serializable {
     @SerializedName("rating")
     @Expose
     private float rating;
-    @SerializedName("coordinates")
+    @SerializedName("address1")
     @Expose
-    private Coordinates coordinates;
-    @SerializedName("transactions")
-    @Expose
-    private List<String> transactions = new ArrayList<String>();
-    @SerializedName("price")
-    @Expose
-    private String price;
-    @SerializedName("location")
-    @Expose
-    private Location location;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("display_phone")
-    @Expose
-    private String displayPhone;
-    @SerializedName("distance")
-    @Expose
-    private float distance;
+    private String address;
 
     public String getId() {
         return id;
@@ -68,13 +40,6 @@ public class Business implements Serializable {
         this.id = id;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
 
     public String getName() {
         return name;
@@ -92,21 +57,6 @@ public class Business implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public boolean isIsClosed() {
-        return isClosed;
-    }
-
-    public void setIsClosed(boolean isClosed) {
-        this.isClosed = isClosed;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public int getReviewCount() {
         return reviewCount;
@@ -132,60 +82,12 @@ public class Business implements Serializable {
         this.rating = rating;
     }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public List<String> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<String> transactions) {
-        this.transactions = transactions;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getDisplayPhone() {
-        return displayPhone;
-    }
-
-    public void setDisplayPhone(String displayPhone) {
-        this.displayPhone = displayPhone;
-    }
-
-    public float getDistance() {
-        return distance;
-    }
-
-    public void setDistance(float distance) {
-        this.distance = distance;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
@@ -196,10 +98,6 @@ public class Business implements Serializable {
         sb.append('=');
         sb.append(((this.id == null) ? "<null>" : this.id));
         sb.append(',');
-        sb.append("alias");
-        sb.append('=');
-        sb.append(((this.alias == null) ? "<null>" : this.alias));
-        sb.append(',');
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null) ? "<null>" : this.name));
@@ -207,14 +105,6 @@ public class Business implements Serializable {
         sb.append("imageUrl");
         sb.append('=');
         sb.append(((this.imageUrl == null) ? "<null>" : this.imageUrl));
-        sb.append(',');
-        sb.append("isClosed");
-        sb.append('=');
-        sb.append(this.isClosed);
-        sb.append(',');
-        sb.append("url");
-        sb.append('=');
-        sb.append(((this.url == null) ? "<null>" : this.url));
         sb.append(',');
         sb.append("reviewCount");
         sb.append('=');
@@ -228,34 +118,6 @@ public class Business implements Serializable {
         sb.append('=');
         sb.append(this.rating);
         sb.append(',');
-        sb.append("coordinates");
-        sb.append('=');
-        sb.append(((this.coordinates == null) ? "<null>" : this.coordinates));
-        sb.append(',');
-        sb.append("transactions");
-        sb.append('=');
-        sb.append(((this.transactions == null) ? "<null>" : this.transactions));
-        sb.append(',');
-        sb.append("price");
-        sb.append('=');
-        sb.append(((this.price == null) ? "<null>" : this.price));
-        sb.append(',');
-        sb.append("location");
-        sb.append('=');
-        sb.append(((this.location == null) ? "<null>" : this.location));
-        sb.append(',');
-        sb.append("phone");
-        sb.append('=');
-        sb.append(((this.phone == null) ? "<null>" : this.phone));
-        sb.append(',');
-        sb.append("displayPhone");
-        sb.append('=');
-        sb.append(((this.displayPhone == null) ? "<null>" : this.displayPhone));
-        sb.append(',');
-        sb.append("distance");
-        sb.append('=');
-        sb.append(this.distance);
-        sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
@@ -267,35 +129,20 @@ public class Business implements Serializable {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result * 31) + ((this.displayPhone == null) ? 0 : this.displayPhone.hashCode()));
-        result = ((result * 31) + Float.floatToIntBits(this.distance));
         result = ((result * 31) + Float.floatToIntBits(this.rating));
-        result = ((result * 31) + ((this.coordinates == null) ? 0 : this.coordinates.hashCode()));
-        result = ((result * 31) + ((this.transactions == null) ? 0 : this.transactions.hashCode()));
-        result = ((result * 31) + ((this.url == null) ? 0 : this.url.hashCode()));
-        result = ((result * 31) + (this.isClosed ? 1 : 0));
         result = ((result * 31) + this.reviewCount);
-        result = ((result * 31) + ((this.phone == null) ? 0 : this.phone.hashCode()));
-        result = ((result * 31) + ((this.price == null) ? 0 : this.price.hashCode()));
         result = ((result * 31) + ((this.imageUrl == null) ? 0 : this.imageUrl.hashCode()));
         result = ((result * 31) + ((this.name == null) ? 0 : this.name.hashCode()));
-        result = ((result * 31) + ((this.alias == null) ? 0 : this.alias.hashCode()));
-        result = ((result * 31) + ((this.location == null) ? 0 : this.location.hashCode()));
         result = ((result * 31) + ((this.id == null) ? 0 : this.id.hashCode()));
         result = ((result * 31) + ((this.categories == null) ? 0 : this.categories.hashCode()));
         return result;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if (!(other instanceof Business)) {
-            return false;
-        }
-        Business rhs = ((Business) other);
-        return ((((((((((((((((Objects.equals(this.displayPhone, rhs.displayPhone)) && (Float.floatToIntBits(this.distance) == Float.floatToIntBits(rhs.distance))) && (Float.floatToIntBits(this.rating) == Float.floatToIntBits(rhs.rating))) && (Objects.equals(this.coordinates, rhs.coordinates))) && (Objects.equals(this.transactions, rhs.transactions))) && (Objects.equals(this.url, rhs.url))) && (this.isClosed == rhs.isClosed)) && (this.reviewCount == rhs.reviewCount)) && (Objects.equals(this.phone, rhs.phone))) && (Objects.equals(this.price, rhs.price))) && (Objects.equals(this.imageUrl, rhs.imageUrl))) && (Objects.equals(this.name, rhs.name))) && (Objects.equals(this.alias, rhs.alias))) && (Objects.equals(this.location, rhs.location))) && (Objects.equals(this.id, rhs.id))) && (Objects.equals(this.categories, rhs.categories)));
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Business business = (Business) o;
+        return reviewCount == business.reviewCount && Float.compare(business.rating, rating) == 0 && id.equals(business.id) && name.equals(business.name) && imageUrl.equals(business.imageUrl) && categories.equals(business.categories);
     }
-
 }
