@@ -18,8 +18,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
     private List<Business> lstBusinesses;
     private Context context;
 
-    public BusinessAdapter(Context context, List<Business> lstBusinesses) {
-        this.lstBusinesses = lstBusinesses;
+    public BusinessAdapter(Context context) {
         this.context = context;
     }
 

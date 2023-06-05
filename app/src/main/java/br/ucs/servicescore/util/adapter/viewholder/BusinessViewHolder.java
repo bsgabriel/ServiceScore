@@ -1,6 +1,5 @@
 package br.ucs.servicescore.util.adapter.viewholder;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -47,7 +46,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         ratingBar.setRating(business.getRating());
         txtCategoria.setText(business.getCategories().get(0).getTitle());
         txtNumReviews.setText(business.getReviewCount() + " reviews");
-        txtEndereco.setText(business.getAddress());
+        txtEndereco.setText(business.getLocation().getAddress());
 
         Glide.with(itemView.getContext())//
                 .load(business.getImageUrl())//

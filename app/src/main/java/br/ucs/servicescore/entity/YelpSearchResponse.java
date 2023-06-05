@@ -34,8 +34,6 @@ public class YelpSearchResponse implements Serializable {
         this.total = total;
     }
 
-
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

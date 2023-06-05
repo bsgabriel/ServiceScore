@@ -28,9 +28,9 @@ public class Business implements Serializable {
     @SerializedName("rating")
     @Expose
     private float rating;
-    @SerializedName("address1")
+    @SerializedName("location")
     @Expose
-    private String address;
+    private Location location;
 
     public String getId() {
         return id;
@@ -82,12 +82,12 @@ public class Business implements Serializable {
         this.rating = rating;
     }
 
-    public String getAddress() {
-        return address;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override
@@ -118,6 +118,10 @@ public class Business implements Serializable {
         sb.append('=');
         sb.append(this.rating);
         sb.append(',');
+        sb.append("location");
+        sb.append('=');
+        sb.append(((this.location == null) ? "<null>" : this.location));
+        sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
@@ -135,6 +139,7 @@ public class Business implements Serializable {
         result = ((result * 31) + ((this.name == null) ? 0 : this.name.hashCode()));
         result = ((result * 31) + ((this.id == null) ? 0 : this.id.hashCode()));
         result = ((result * 31) + ((this.categories == null) ? 0 : this.categories.hashCode()));
+        result = ((result * 31) + ((this.location == null) ? 0 : this.location.hashCode()));
         return result;
     }
 

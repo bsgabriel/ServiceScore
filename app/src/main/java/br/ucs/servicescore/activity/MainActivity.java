@@ -16,6 +16,7 @@ import br.ucs.servicescore.entity.YelpSearchResponse;
 import br.ucs.servicescore.service.YelpService;
 import br.ucs.servicescore.util.GlobalKeys;
 import br.ucs.servicescore.util.adapter.BusinessAdapter;
+import br.ucs.servicescore.util.helper.YelpServiceHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,56 +26,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private RecyclerView rvBusiness;
+    private BusinessAdapter businessAdapter;
    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: Pegar a cidade com base na localização do celular
-        // TODO: Recriar as entidades utilizando apenas os campos necessários
-        // TODO: Verificar se existe dados no banco. Caso não tenha, carrega da API e salva
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initComponents();
-        
-        List<Business> lstBusiness = new ArrayList<>();
-        BusinessAdapter businessAdapter = new BusinessAdapter(this, lstBusiness);
-        rvBusiness = findViewById(R.id.rvBusiness);
-        rvBusiness.setLayoutManager(new LinearLayoutManager(this));
-        rvBusiness.setAdapter(businessAdapter);
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(GlobalKeys.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
-
-        YelpService service = retrofit.create(YelpService.class);
-        service.searchBusiness("Bearer " + GlobalKeys.API_KEY,"Caxias do Sul").enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.i(TAG, "onFailure " + t.toString());
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-
-                if(response.body() == null){
-                    Log.w(TAG, "Não houve retorno da API.");
-                    return;
-                }
-
-                Log.i(TAG, "body instanceof YelpSearchResponse: " +  (response.body() instanceof YelpSearchResponse));
-                YelpSearchResponse retorno = (YelpSearchResponse) response.body();
-                lstBusiness.addAll(retorno.getBusinesses());
-                Log.i(TAG, "retorno.size: " + lstBusiness.size());
-                businessAdapter.notifyDataSetChanged();
-            }
+        YelpServiceHelper.getInstance().getDataFromApi(() -> {
+            businessAdapter.getLstBusinesses().addAll(YelpServiceHelper.getInstance().getReturnedData());
+            businessAdapter.notifyDataSetChanged();
         });
     }
 
-    /**
-     * Repsonsável pela inicialização de componentes
-     */
-    private void initComponents () {
-        ;
-
-
+    private void initComponents(){
+        businessAdapter = new BusinessAdapter(this);
+        rvBusiness = findViewById(R.id.rvBusiness);
+        rvBusiness.setLayoutManager(new LinearLayoutManager(this));
+        rvBusiness.setAdapter(businessAdapter);
     }
+
+
 }
