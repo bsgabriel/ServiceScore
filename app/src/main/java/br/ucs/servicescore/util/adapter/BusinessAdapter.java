@@ -12,7 +12,7 @@ import java.util.List;
 
 import br.ucs.servicescore.R;
 import br.ucs.servicescore.entity.Business;
-import br.ucs.servicescore.util.viewholder.BusinessViewHolder;
+import br.ucs.servicescore.util.adapter.viewholder.BusinessViewHolder;
 
 public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
     private List<Business> lstBusinesses;

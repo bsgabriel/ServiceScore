@@ -1,4 +1,4 @@
-package br.ucs.servicescore.util.viewholder;
+package br.ucs.servicescore.util.adapter.viewholder;
 
 import android.content.Context;
 import android.view.View;
