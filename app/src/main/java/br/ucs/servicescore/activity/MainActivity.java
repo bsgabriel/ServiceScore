@@ -18,7 +18,7 @@ import br.ucs.servicescore.util.adapter.BusinessAdapter;
 import br.ucs.servicescore.util.helper.DatabaseHelper;
 import br.ucs.servicescore.util.helper.LocationHelper;
 import br.ucs.servicescore.util.helper.YelpServiceHelper;
-import br.ucs.servicescore.util.interfaces.MessageCallback;
+import br.ucs.servicescore.interfaces.MessageCallback;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

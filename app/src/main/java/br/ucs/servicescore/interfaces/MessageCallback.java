@@ -1,4 +1,4 @@
-package br.ucs.servicescore.util.interfaces;
+package br.ucs.servicescore.interfaces;
 
 /**
  * Interface com métodos listeners para diálogos

@@ -1,13 +1,11 @@
 package br.ucs.servicescore.util;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 
-import br.ucs.servicescore.util.interfaces.MessageCallback;
+import br.ucs.servicescore.interfaces.MessageCallback;
 
 public class MessageFactory {
 

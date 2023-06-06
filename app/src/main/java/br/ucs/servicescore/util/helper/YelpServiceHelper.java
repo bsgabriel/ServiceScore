@@ -8,7 +8,7 @@ import java.util.List;
 import br.ucs.servicescore.entity.yelpresponse.Business;
 import br.ucs.servicescore.entity.Place;
 import br.ucs.servicescore.entity.yelpresponse.YelpSearchResponse;
-import br.ucs.servicescore.service.YelpService;
+import br.ucs.servicescore.interfaces.YelpService;
 import br.ucs.servicescore.util.GlobalKeys;
 import retrofit2.Call;
 import retrofit2.Callback;

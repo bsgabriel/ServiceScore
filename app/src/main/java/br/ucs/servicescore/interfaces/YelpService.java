@@ -1,4 +1,4 @@
-package br.ucs.servicescore.service;
+package br.ucs.servicescore.interfaces;
 
 import br.ucs.servicescore.entity.yelpresponse.YelpSearchResponse;
 import retrofit2.Call;
