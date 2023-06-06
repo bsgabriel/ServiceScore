@@ -2,6 +2,7 @@ package br.ucs.servicescore.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import br.ucs.servicescore.util.interfaces.MessageCallback;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private RecyclerView rvBusiness;
+    private Button btnRefresh;
     private BusinessAdapter businessAdapter;
     private LocationHelper locationHelper;
     private DatabaseHelper databaseHelper;
@@ -32,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initComponents();
 
-        getDatabaseHelper().deleteAll(); // TODO remover
         List<Place> places = getDatabaseHelper().buscarTodos();
         if (places == null || places.isEmpty()) {
             Log.i(TAG, "Nenhum dado encontrado no banco, realizando busca na API");
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(TAG, "Total de resultados encontrados no banco: " + places.size());
             businessAdapter.getLstPlaces().addAll(places);
-            getDatabaseHelper().addData(businessAdapter.getLstPlaces());
+            businessAdapter.notifyDataSetChanged();
         }
     }
 
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
         rvBusiness = findViewById(R.id.rvBusiness);
         rvBusiness.setLayoutManager(new LinearLayoutManager(this));
         rvBusiness.setAdapter(businessAdapter);
+
+        btnRefresh = findViewById(R.id.btnRefresh);
+        btnRefresh.setOnClickListener((event) -> {
+            businessAdapter.getLstPlaces().clear();
+            businessAdapter.notifyDataSetChanged();
+            getLocationHelper().pedirPermissao();
+        });
     }
 
     @Override
@@ -109,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         YelpServiceHelper.getInstance().getDataFromApi(cidade, () -> {
             businessAdapter.getLstPlaces().addAll(YelpServiceHelper.getInstance().getPlaces());
+            getDatabaseHelper().deleteAll();
             getDatabaseHelper().addData(businessAdapter.getLstPlaces());
             businessAdapter.notifyDataSetChanged();
         });
