@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import br.ucs.servicescore.entity.Place;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -28,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         StringBuilder createTable = new StringBuilder();
         createTable.append("CREATE TABLE " + TABLE_NAME + "(");
-        createTable.append(COL_ID + " ID INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        createTable.append(COL_ID + " TEXT PRIMARY KEY, ");
         createTable.append(COL_NOME + " TEXT, ");
         createTable.append(COL_RATING + " INTEGER, ");
         createTable.append(COL_CATEGORIA + " TEXT, ");
@@ -43,29 +46,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
-    public boolean addData(String nome, Long rating, String categoria, Integer numReviews, String endereco, String urlImage) {
+    public void addData(Place place) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_NOME, nome);
-        contentValues.put(COL_RATING, rating);
-        contentValues.put(COL_CATEGORIA, categoria);
-        contentValues.put(COL_NUM_REVIEWS, numReviews);
-        contentValues.put(COL_ENDERECO, endereco);
-        contentValues.put(COL_URL_IMG, urlImage);
-
-        long result = db.insert(TABLE_NAME, null, contentValues);
-
-        return result != -1;
+        contentValues.put(COL_NOME, place.getNome());
+        contentValues.put(COL_RATING, place.getAvaliacao());
+        contentValues.put(COL_CATEGORIA, place.getCategoria());
+        contentValues.put(COL_NUM_REVIEWS, place.getNumAvaliacoes());
+        contentValues.put(COL_ENDERECO, place.getEndereco());
+        contentValues.put(COL_URL_IMG, place.getUrlImage());
+        db.insert(TABLE_NAME, null, contentValues);
     }
 
-    public Cursor getListContects() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-        return data;
+    public void addData(List<Place> places) {
+        for (Place place : places) {
+            addData(place);
+        }
     }
 
-    public void onDelete(SQLiteDatabase db) {
-        db.execSQL("DELETE FROM " + TABLE_NAME);
+    private Place cursorToPlace(Cursor cursor) {
+        Place place = new Place();
+        place.setId(cursor.getString(0));
+        place.setNome(cursor.getString(1));
+        place.setAvaliacao(cursor.getFloat(2));
+        place.setCategoria(cursor.getString(3));
+        place.setNumAvaliacoes(cursor.getInt(4));
+        place.setEndereco(cursor.getString(5));
+        place.setUrlImage(cursor.getString(6));
+        return place;
+    }
+
+    public ArrayList<Place> buscarTodos() {
+        ArrayList<Place> places = new ArrayList<Place>();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                places.add(cursorToPlace(cursor));
+            } while (cursor.moveToNext());
+        }
+        return places;
+    }
+
+    public void deleteAll() {
+        this.getWritableDatabase().execSQL("delete from "+ TABLE_NAME);
     }
 
 

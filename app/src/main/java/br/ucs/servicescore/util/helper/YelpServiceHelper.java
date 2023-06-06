@@ -42,9 +42,8 @@ public class YelpServiceHelper {
         return places;
     }
 
-    public void getDataFromApi(Runnable afterCall) {
-
-        service.searchBusiness("Bearer " + GlobalKeys.API_KEY, "Caxias do Sul").enqueue(new Callback() {
+    public void getDataFromApi(String cidade, Runnable afterCall) {
+        service.searchBusiness("Bearer " + GlobalKeys.API_KEY, cidade).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.i(TAG, "onFailure " + t.toString());
