@@ -5,8 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ucs.servicescore.entity.Business;
-import br.ucs.servicescore.entity.YelpSearchResponse;
+import br.ucs.servicescore.entity.yelpresponse.Business;
+import br.ucs.servicescore.entity.Place;
+import br.ucs.servicescore.entity.yelpresponse.YelpSearchResponse;
 import br.ucs.servicescore.service.YelpService;
 import br.ucs.servicescore.util.GlobalKeys;
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public class YelpServiceHelper {
     private static YelpServiceHelper instance;
 
     private YelpService service;
-    private List<Business> returnedData;
+    private List<Place> places;
 
     private YelpServiceHelper() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(GlobalKeys.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
@@ -34,11 +35,11 @@ public class YelpServiceHelper {
         return instance;
     }
 
-    public List<Business> getReturnedData() {
-        if (returnedData == null)
-            returnedData = new ArrayList<>();
+    public List<Place> getPlaces() {
+        if (places == null)
+            places = new ArrayList<>();
 
-        return returnedData;
+        return places;
     }
 
     public void getDataFromApi(Runnable afterCall) {
@@ -57,12 +58,23 @@ public class YelpServiceHelper {
                     return;
                 }
 
-                getReturnedData().clear();
+                getPlaces().clear();
                 YelpSearchResponse retorno = (YelpSearchResponse) response.body();
-                getReturnedData().addAll(retorno.getBusinesses());
+                for(Business business : retorno.getBusinesses()){
+                    Place place = new Place();
+                    place.setId(business.getId());
+                    place.setNome(business.getName());
+                    place.setAvaliacao(business.getRating());
+                    place.setCategoria(business.getCategories().get(0).getTitle());
+                    place.setEndereco(business.getLocation().getAddress1());
+                    place.setNumAvaliacoes(business.getReviewCount());
+                    place.setUrlImage(business.getImageUrl());
+                    getPlaces().add(place);
+                }
 
                 if (afterCall != null)
                     afterCall.run();
+
             }
         });
     }

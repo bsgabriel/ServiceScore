@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import br.ucs.servicescore.R;
-import br.ucs.servicescore.entity.Business;
+import br.ucs.servicescore.entity.Place;
 
 public class BusinessViewHolder extends RecyclerView.ViewHolder {
     private View itemView;
@@ -40,19 +40,17 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
     }
 
-
-    public void bind(Business business) {
-        txtNome.setText(business.getName());
-        ratingBar.setRating(business.getRating());
-        txtCategoria.setText(business.getCategories().get(0).getTitle());
-        txtNumReviews.setText(business.getReviewCount() + " reviews");
-        txtEndereco.setText(business.getLocation().getAddress());
+    public void bind(Place place) {
+        txtNome.setText(place.getNome());
+        ratingBar.setRating(place.getAvaliacao());
+        txtCategoria.setText(place.getCategoria());
+        txtNumReviews.setText(place.getNumAvaliacoes() + " reviews");
+        txtEndereco.setText(place.getEndereco());
 
         Glide.with(itemView.getContext())//
-                .load(business.getImageUrl())//
+                .load(place.getUrlImage())//
                 .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(20)))//
                 .into(imageView);
-
     }
 
 }

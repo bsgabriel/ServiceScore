@@ -1,6 +1,6 @@
 package br.ucs.servicescore.service;
 
-import br.ucs.servicescore.entity.YelpSearchResponse;
+import br.ucs.servicescore.entity.yelpresponse.YelpSearchResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

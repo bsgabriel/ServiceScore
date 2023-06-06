@@ -11,22 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ucs.servicescore.R;
-import br.ucs.servicescore.entity.Business;
+import br.ucs.servicescore.entity.Place;
 import br.ucs.servicescore.util.adapter.viewholder.BusinessViewHolder;
 
 public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
-    private List<Business> lstBusinesses;
+    private List<Place> lstPlaces;
     private Context context;
 
     public BusinessAdapter(Context context) {
         this.context = context;
     }
 
-    public List<Business> getLstBusinesses() {
-        if (lstBusinesses == null)
-            lstBusinesses = new ArrayList<>();
+    public List<Place> getLstPlaces() {
+        if (lstPlaces == null)
+            lstPlaces = new ArrayList<>();
 
-        return lstBusinesses;
+        return lstPlaces;
     }
 
     @NonNull
@@ -37,11 +37,11 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BusinessViewHolder holder, int position) {
-        holder.bind(getLstBusinesses().get(position));
+        holder.bind(getLstPlaces().get(position));
     }
 
     @Override
     public int getItemCount() {
-        return getLstBusinesses().size();
+        return getLstPlaces().size();
     }
 }

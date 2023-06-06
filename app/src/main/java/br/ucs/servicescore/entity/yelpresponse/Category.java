@@ -1,4 +1,4 @@
-package br.ucs.servicescore.entity;
+package br.ucs.servicescore.entity.yelpresponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
