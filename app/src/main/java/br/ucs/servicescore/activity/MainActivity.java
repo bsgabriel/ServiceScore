@@ -2,6 +2,7 @@ package br.ucs.servicescore.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,10 +12,12 @@ import java.util.List;
 
 import br.ucs.servicescore.R;
 import br.ucs.servicescore.entity.Place;
+import br.ucs.servicescore.util.MessageFactory;
 import br.ucs.servicescore.util.adapter.BusinessAdapter;
 import br.ucs.servicescore.util.helper.DatabaseHelper;
 import br.ucs.servicescore.util.helper.LocationHelper;
 import br.ucs.servicescore.util.helper.YelpServiceHelper;
+import br.ucs.servicescore.util.interfaces.MessageCallback;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initComponents();
 
+        getDatabaseHelper().deleteAll(); // TODO remover
         List<Place> places = getDatabaseHelper().buscarTodos();
         if (places == null || places.isEmpty()) {
             Log.i(TAG, "Nenhum dado encontrado no banco, realizando busca na API");
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        locationHelper.handlePermissionResult(requestCode, grantResults);
+        getLocationHelper().handlePermissionResult(requestCode, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -67,12 +71,26 @@ public class MainActivity extends AppCompatActivity {
                 String cidade = locationHelper.getCity();
 
                 // TODO: adicionar tratamento para caso a cidade não seja encontrada (pode acontecer caso a permissão da localização seja negada)
+                buscarCidade(cidade);
+            });
 
-                Log.i(TAG, "Buscando dados da cidade: " + cidade);
-                YelpServiceHelper.getInstance().getDataFromApi(cidade, () -> {
-                    businessAdapter.getLstPlaces().addAll(YelpServiceHelper.getInstance().getPlaces());
-                    getDatabaseHelper().addData(businessAdapter.getLstPlaces());
-                    businessAdapter.notifyDataSetChanged();
+
+            locationHelper.setOnPermissionDenied(() -> {
+                MessageFactory.showInputDialog(MainActivity.this, "Digite a cidade", new MessageCallback() {
+                    @Override
+                    public void onConfirm(String userInput) {
+                        if (userInput == null || userInput.trim().isEmpty()) {
+                            Log.w(TAG, "Usuário não digitou  nenuma cidade");
+                            return;
+                        }
+                        buscarCidade(userInput);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.w(TAG, "Usuáiro não informou cidade, não haverá busca");
+                        Toast.makeText(MainActivity.this, "É necessário informar a cidade!", Toast.LENGTH_LONG);
+                    }
                 });
             });
         }
@@ -86,4 +104,13 @@ public class MainActivity extends AppCompatActivity {
         return databaseHelper;
     }
 
+    private void buscarCidade(String cidade) {
+        Log.i(TAG, "Buscando dados da cidade: " + cidade);
+
+        YelpServiceHelper.getInstance().getDataFromApi(cidade, () -> {
+            businessAdapter.getLstPlaces().addAll(YelpServiceHelper.getInstance().getPlaces());
+            getDatabaseHelper().addData(businessAdapter.getLstPlaces());
+            businessAdapter.notifyDataSetChanged();
+        });
+    }
 }

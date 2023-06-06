@@ -15,16 +15,19 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class LocationHelper {
+    private static final String TAG = "LocationHelper";
     private final Context context;
     private final LocationManager locationManager;
     private final LocationListener locationListener;
     private Runnable onLocationChange;
+    private Runnable onPermissionDenied;
 
     public LocationHelper(Context context) {
         this.context = context;
@@ -35,6 +38,11 @@ public class LocationHelper {
     public void setOnLocationChange(Runnable onLocationChange) {
         this.onLocationChange = onLocationChange;
     }
+
+    public void setOnPermissionDenied(Runnable onPermissionDenied) {
+        this.onPermissionDenied = onPermissionDenied;
+    }
+
 
     private String getCityFromCoordinates(double latitude, double longitude) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -69,6 +77,11 @@ public class LocationHelper {
     public void handlePermissionResult(int requestCode, int[] grantResults) {
         if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
             requestLocationPermission();
+        } else {
+            Log.w(TAG, "Usuário nãp permitiu acesso à localização");
+            if (onPermissionDenied != null) {
+                onPermissionDenied.run();
+            }
         }
     }
 
