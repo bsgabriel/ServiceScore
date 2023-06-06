@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initComponents();
 
-        // TODO: Procurar dados no banco. Caso não sejam encontrados, pegar a localização do celular e fazer a busca na API
         List<Place> places = getDatabaseHelper().buscarTodos();
         if (places == null || places.isEmpty()) {
             Log.i(TAG, "Nenhum dado encontrado no banco, realizando busca na API");
